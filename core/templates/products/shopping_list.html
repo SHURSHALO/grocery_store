@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+<h1>Корзина</h1>
+
+<!-- Кнопка для добавления товара в корзину -->
+<a href="{% url 'products:shopping_manage' %}" class="btn btn-primary">Добавить товар</a>
+
+{% if object_list %}
+    <ul>
+        {% for item in object_list %}
+            <li>
+                <h2>{{ item.product.title }}</h2>
+                <p>Цена: {{ item.product.price }} руб.</p>
+                <p>Количество: {{ item.quantity }}</p>
+
+                <!-- Кнопка для изменения количества -->
+                <a href="{% url 'products:shopping_manage' item.pk %}" class="btn btn-warning">Изменить количество</a>
+
+                <!-- Форма для удаления товара -->
+                <form action="{% url 'products:shopping_manage' item.pk %}?action=delete" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p>Всего товаров: {{ total_quantity }}</p>
+    <p>Общая стоимость: {{ total_price }} руб.</p>
+
+    <a href="{% url 'products:clear_cart' %}" class="btn btn-secondary">Очистить корзину</a>
+{% else %}
+    <p>Ваша корзина пуста.</p>
+{% endif %}
+
+{% include "paginator.html" %}
+
+{% endblock %}
+
+

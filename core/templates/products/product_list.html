@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Список продуктов{% endblock %}
+
+{% block content %}
+<h1>Список продуктов</h1>
+<ul>
+    {% for product in object_list %}
+        <li>
+            <h2>{{ product.title }}</h2>
+            <p><strong>Slug:</strong> {{ product.slug }}</p>
+            <p><strong>Категория:</strong> {{ product.category.title }}</p>
+            <p><strong>Подкатегория:</strong> {{ product.subcategory.title }}</p>
+            <p><strong>Цена:</strong> {{ product.price }} руб.</p>
+
+            <h3>Изображения:</h3>
+            {% if product.image_small %}
+                <div>
+                    <p>Small:</p>
+                    <img src="{{ product.image_small.url }}" alt="{{ product.title }} - Small">
+                </div>
+            {% endif %}
+            {% if product.image_medium %}
+                <div>
+                    <p>Medium:</p>
+                    <img src="{{ product.image_medium.url }}" alt="{{ product.title }} - Medium">
+                </div>
+            {% endif %}
+            {% if product.image_large %}
+                <div>
+                    <p>Large:</p>
+                    <img src="{{ product.image_large.url }}" alt="{{ product.title }} - Large">
+                </div>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+{% include "paginator.html" %}
+{% endblock %}
+

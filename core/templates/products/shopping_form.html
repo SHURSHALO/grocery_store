@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if form.instance.pk %}
+        Изменить товар в корзине
+    {% else %}
+        Добавить товар в корзину
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<h1>
+    {% if form.instance.pk %}
+        Изменить товар в корзине
+    {% else %}
+        Добавить товар в корзину
+    {% endif %}
+</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">
+        {% if form.instance.pk %}
+            Сохранить изменения
+        {% else %}
+            Добавить в корзину
+        {% endif %}
+    </button>
+</form>
+
+<a href="{% url 'products:shopping_cart' %}" class="btn btn-secondary">Назад к корзине</a>
+{% endblock %}
